@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: Weather API
+  description: API for weather information
+  version: 1.0.0
+paths:
+  /:
+    get:
+      summary: Health check endpoint
+      responses:
+        '200':
+          description: Health check endpoint.
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                example1:
+                  summary: Sample response
+                  value: 'Hello World'
+  /weather:
+    get:
+      summary: Get all weather related data
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: Return all weather related data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    createdAt:
+                      type: string
+                      format: date-time
+                    temperature:
+                      type: number
+                    humidity:
+                      type: number
+                    pressure:
+                      type: number
+                    gas:
+                      type: number
+                    windSpeed:
+                      type: number
+                    precipitation:
+                      type: number
+                    windDirection:
+                      type: number
+                    uv:
+                      type: number
+              examples:
+                example1:
+                  summary: Sample response
+                  value:
+                    - createdAt: '2024-10-30T08:48:42.000Z'
+                      temperature: 46
+                      humidity: 0
+                      pressure: 95
+                      gas: 48.8
+                      windSpeed: 0
+                      precipitation: 30.14
+                      windDirection: 4.14
+                      uv: 0
+                    - createdAt: '2024-10-30T08:53:42.000Z'
+                      temperature: 46
+                      humidity: 0
+                      pressure: 95
+                      gas: 49
+                      windSpeed: 0
+                      precipitation: 30.14
+                      windDirection: 4.075
+                      uv: 0
+  /weather/{id}:
+    get:
+      summary: Get weather data related to an ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the weather data to retrieve
+          schema:
+            type: integer
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: Return weather data related to an ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  createdAt:
+                    type: string
+                    format: date-time
+                  temperature:
+                    type: number
+                  humidity:
+                    type: number
+                  pressure:
+                    type: number
+                  gas:
+                    type: number
+                  windSpeed:
+                    type: number
+                  precipitation:
+                    type: number
+                  windDirection:
+                    type: number
+                  uv:
+                    type: number
+              examples:
+                example1:
+                  summary: Sample response
+                  value:
+                    createdAt: '2024-10-30T08:48:42.000Z'
+                    temperature: 46
+                    humidity: 0
+                    pressure: 95
+                    gas: 48.8
+                    windSpeed: 0
+                    precipitation: 30.14
+                    windDirection: 4.14
+                    uv: 0
+        '404':
+          description: Weather data not found.
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
