@@ -54,13 +54,13 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
 
             const weather = new Weather();
             weather.createdAt = new Date(created_at);
-            weather.temperature = parseFloat(field1);
-            weather.humidity = parseFloat(field2);
-            weather.pressure = parseFloat(field3);
-            weather.gas = parseFloat(field4);
-            weather.windSpeed = parseFloat(field5);
-            weather.precipitation = parseFloat(field6);
-            weather.windDirection = parseFloat(field7);
+            weather.windDirection = parseFloat(field1);
+            weather.windSpeed = parseFloat(field2);
+            weather.humidity = parseFloat(field3);
+            weather.temperature = parseFloat(field4);
+            weather.precipitation = parseFloat(field5);
+            weather.pressure = parseFloat(field6);
+            weather.powerLevel = parseFloat(field7);
             weather.uv = parseFloat(field8);
 
             return weather;

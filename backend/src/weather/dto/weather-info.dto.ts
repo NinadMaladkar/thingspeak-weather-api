@@ -7,7 +7,7 @@ export class WeatherInfoDto {
 
   pressure?: number;
 
-  gas?: number;
+  powerLevel?: number;
 
   windSpeed?: number;
 

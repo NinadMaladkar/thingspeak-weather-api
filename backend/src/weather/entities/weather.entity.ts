@@ -18,7 +18,7 @@ export class Weather {
   pressure: number;
 
   @Column('float', { nullable: true })
-  gas: number;
+  powerLevel: number;
 
   @Column('float', { nullable: true })
   windSpeed: number;
