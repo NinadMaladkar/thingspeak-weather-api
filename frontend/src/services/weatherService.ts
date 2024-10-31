@@ -1,12 +1,18 @@
 import axios from 'axios';
 
-const API_URL = process.env.API_URL || '';
+const API_URL = process.env.REACT_APP_API_URL || '';
 
 export const fetchWeatherData = async () => {
   try {
     const response = await axios.get(API_URL, {
       headers: {
-        Authorization: 'Basic ' + btoa('admin:password'),
+        Authorization:
+          'Basic ' +
+          btoa(
+            process.env.REACT_APP_API_USERNAME +
+              ':' +
+              process.env.REACT_APP_API_PASSWORD,
+          ),
       },
     });
     return response.data;
