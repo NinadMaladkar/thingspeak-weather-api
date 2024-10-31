@@ -14,7 +14,7 @@ export class AppService {
 
   async onModuleInit() {
     // TODO: Uncomment this when you want to fetch data and produce to Kafka
-    // await this.fetchDataAndProduce();
+    await this.fetchDataAndProduce();
   }
 
   // * INFO: The cron job will run every 1 minute on the 10th second
@@ -23,8 +23,10 @@ export class AppService {
     console.log('Fetching data and producing to Kafka 1111111');
 
     try {
-      const channelID = thingspeakApiChannelId;
-      const url = `${thingspeakApiUrl}/${channelID}/feeds.json`;
+      const channelId = thingspeakApiChannelId;
+      const url = `${thingspeakApiUrl}/${channelId}/feeds.json`;
+
+      console.log('url >> ', url);
 
       const response = await axios.get(url);
       const data = response.data;

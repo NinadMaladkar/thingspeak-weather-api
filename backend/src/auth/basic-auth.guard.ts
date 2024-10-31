@@ -4,6 +4,7 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
+import { apiPassword, apiUsername } from '../../config';
 
 @Injectable()
 export class BasicAuthGuard implements CanActivate {
@@ -24,7 +25,7 @@ export class BasicAuthGuard implements CanActivate {
     const [username, password] = credentials.split(':');
 
     // TODO: Replace with your own logic to verify username and password
-    if (username === 'admin' && password === 'password') {
+    if (username === apiUsername && password === apiPassword) {
       return true;
     }
 

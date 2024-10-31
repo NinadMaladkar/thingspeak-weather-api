@@ -18,6 +18,10 @@ services:
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
       DATABASE_NAME: weather
+      THINGSPEAK_API_URL: ${THINGSPEAK_API_URL}
+      THINGSPEAK_API_CHANNEL_ID: ${THINGSPEAK_API_CHANNEL_ID}
+      API_USERNAME: ${API_USERNAME}
+      API_PASSWORD: ${API_PASSWORD}
 
   frontend:
     build:
@@ -28,6 +32,11 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    environment:
+      API_USERNAME: ${API_USERNAME}
+      API_PASSWORD: ${API_PASSWORD}
+    env_file:
+      - ./frontend/.env
 
   zookeeper:
     image: bitnami/zookeeper:latest
