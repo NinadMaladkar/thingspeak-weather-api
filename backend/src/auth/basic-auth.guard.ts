@@ -24,7 +24,6 @@ export class BasicAuthGuard implements CanActivate {
     );
     const [username, password] = credentials.split(':');
 
-    // TODO: Replace with your own logic to verify username and password
     if (username === apiUsername && password === apiPassword) {
       return true;
     }

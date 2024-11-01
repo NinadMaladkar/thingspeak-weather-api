@@ -36,49 +36,41 @@ const WeatherChart: React.FC = () => {
         <CustomChart
           data={timeSortedWeatherData}
           dataKey="temperature"
-          chartType="bar"
           color="#8884d8"
         />
         <CustomChart
           data={timeSortedWeatherData}
           dataKey="humidity"
-          chartType="bar"
           color="#82ca9d"
         />
         <CustomChart
           data={timeSortedWeatherData}
           dataKey="pressure"
-          chartType="bar"
           color="#eaa780"
         />
         <CustomChart
           data={timeSortedWeatherData}
           dataKey="powerLevel"
-          chartType="bar"
           color="#4d88ef"
         />
         <CustomChart
           data={timeSortedWeatherData}
           dataKey="windSpeed"
-          chartType="bar"
           color="#4d88ef"
         />
         <CustomChart
           data={timeSortedWeatherData}
           dataKey="precipitation"
-          chartType="bar"
           color="#73cff7"
         />
         <CustomChart
           data={timeSortedWeatherData}
           dataKey="windDirection"
-          chartType="bar"
           color="#f591ee"
         />
         <CustomChart
           data={timeSortedWeatherData}
           dataKey="uv"
-          chartType="bar"
           color="#edd117"
         />
       </div>

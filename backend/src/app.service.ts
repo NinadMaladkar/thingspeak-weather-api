@@ -13,12 +13,11 @@ export class AppService {
   }
 
   async onModuleInit() {
-    // TODO: Uncomment this when you want to fetch data and produce to Kafka
     await this.fetchDataAndProduce();
   }
 
   // * INFO: The cron job will run every 1 minute on the 10th second
-  // @Cron('10 * * * * *')
+  @Cron('10 * * * * *')
   async fetchDataAndProduce() {
     try {
       const channelId = thingspeakApiChannelId;
