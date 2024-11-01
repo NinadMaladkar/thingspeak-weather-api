@@ -26,8 +26,6 @@ export class AppService {
       const channelId = thingspeakApiChannelId;
       const url = `${thingspeakApiUrl}/${channelId}/feeds.json`;
 
-      console.log('url >> ', url);
-
       const response = await axios.get(url);
       const data = response.data;
 

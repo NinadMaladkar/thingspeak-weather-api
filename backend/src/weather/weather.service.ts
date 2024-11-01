@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Weather } from './entities/weather.entity';
@@ -12,35 +16,45 @@ export class WeatherService {
   ) {}
 
   async findAll(): Promise<WeatherInfoDto[]> {
-    const weatherEntities = await this.weatherRepository.find();
-    return weatherEntities.map((entity) => ({
-      createdAt: entity.createdAt,
-      temperature: entity.temperature,
-      humidity: entity.humidity,
-      pressure: entity.pressure,
-      powerLevel: entity.powerLevel,
-      windSpeed: entity.windSpeed,
-      precipitation: entity.precipitation,
-      windDirection: entity.windDirection,
-      uv: entity.uv,
-    }));
+    try {
+      const weatherEntities = await this.weatherRepository.find();
+      return weatherEntities.map((entity) => ({
+        createdAt: entity.createdAt,
+        temperature: entity.temperature,
+        humidity: entity.humidity,
+        pressure: entity.pressure,
+        powerLevel: entity.powerLevel,
+        windSpeed: entity.windSpeed,
+        precipitation: entity.precipitation,
+        windDirection: entity.windDirection,
+        uv: entity.uv,
+      }));
+    } catch (error) {
+      console.error('Failed to fetch weather data', error);
+      throw new InternalServerErrorException('Failed to fetch weather data');
+    }
   }
 
   async findOne(id: number): Promise<WeatherInfoDto> {
-    const entity = await this.weatherRepository.findOne({ where: { id } });
-    if (!entity) {
-      throw new Error('Weather data not found');
+    try {
+      const entity = await this.weatherRepository.findOne({ where: { id } });
+      if (!entity) {
+        throw new NotFoundException('Weather data not found');
+      }
+      return {
+        createdAt: entity.createdAt,
+        temperature: entity.temperature,
+        humidity: entity.humidity,
+        pressure: entity.pressure,
+        powerLevel: entity.powerLevel,
+        windSpeed: entity.windSpeed,
+        precipitation: entity.precipitation,
+        windDirection: entity.windDirection,
+        uv: entity.uv,
+      };
+    } catch (error) {
+      console.error('Failed to fetch weather data', error);
+      throw new InternalServerErrorException('Failed to fetch weather data');
     }
-    return {
-      createdAt: entity.createdAt,
-      temperature: entity.temperature,
-      humidity: entity.humidity,
-      pressure: entity.pressure,
-      powerLevel: entity.powerLevel,
-      windSpeed: entity.windSpeed,
-      precipitation: entity.precipitation,
-      windDirection: entity.windDirection,
-      uv: entity.uv,
-    };
   }
 }

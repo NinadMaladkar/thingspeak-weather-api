@@ -11,32 +11,18 @@ import { WeatherInfoDto } from './dto/weather-info.dto';
 
 @ApiTags('weather')
 @ApiBasicAuth()
+@UseGuards(BasicAuthGuard)
 @Controller('weather')
 export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
 
-  @UseGuards(BasicAuthGuard)
   @Get()
   @ApiOperation({ summary: 'Get all weather related data' })
-  @ApiResponse({
-    status: 200,
-    description: 'Return all weather related data.',
-    type: [WeatherInfoDto],
-    isArray: true,
-  })
   findAll() {
     return this.weatherService.findAll();
   }
 
-  @UseGuards(BasicAuthGuard)
   @Get(':id')
-  @ApiOperation({ summary: 'Get weather data related to an ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Return weather data related to an ID.',
-    type: WeatherInfoDto,
-  })
-  @ApiResponse({ status: 404, description: 'Weather data not found.' })
   findOne(@Param('id') id: string) {
     return this.weatherService.findOne(+id);
   }

@@ -1,17 +1,8 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
 import { fetchWeatherData } from '../services/weatherService';
-
+import CustomChart from './CustomChart';
+import './WeatherChart.css';
 const WeatherChart: React.FC = () => {
   const {
     data: weatherData,
@@ -20,10 +11,8 @@ const WeatherChart: React.FC = () => {
   } = useQuery({
     queryKey: ['weatherData'],
     queryFn: fetchWeatherData,
-    refetchInterval: 60000, // Refetch data every minute
+    refetchInterval: 60000,
   });
-
-  console.log('weatherData >> ', weatherData);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -33,30 +22,66 @@ const WeatherChart: React.FC = () => {
     return <div>Error fetching weather data: {error.message}</div>;
   }
 
+  const timeSortedWeatherData = weatherData.sort(
+    (a: any, b: any) =>
+      new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  );
+
   return (
     <div>
-      <h1>Weather Data Chart</h1>
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={weatherData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="createdAt"
-            tickFormatter={(tick) => new Date(tick).toLocaleTimeString()}
-          />
-          <YAxis />
-          <Tooltip
-            labelFormatter={(label) => new Date(label).toLocaleString()}
-          />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="temperature"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-          <Line type="monotone" dataKey="humidity" stroke="#82ca9d" />
-        </LineChart>
-      </ResponsiveContainer>
+      <h1 style={{ textAlign: 'center', marginBottom: '2%' }}>
+        Weather Data Chart
+      </h1>
+      <div className="chart-container">
+        <CustomChart
+          data={timeSortedWeatherData}
+          dataKey="temperature"
+          chartType="bar"
+          color="#8884d8"
+        />
+        <CustomChart
+          data={timeSortedWeatherData}
+          dataKey="humidity"
+          chartType="bar"
+          color="#82ca9d"
+        />
+        <CustomChart
+          data={timeSortedWeatherData}
+          dataKey="pressure"
+          chartType="bar"
+          color="#eaa780"
+        />
+        <CustomChart
+          data={timeSortedWeatherData}
+          dataKey="powerLevel"
+          chartType="bar"
+          color="#4d88ef"
+        />
+        <CustomChart
+          data={timeSortedWeatherData}
+          dataKey="windSpeed"
+          chartType="bar"
+          color="#4d88ef"
+        />
+        <CustomChart
+          data={timeSortedWeatherData}
+          dataKey="precipitation"
+          chartType="bar"
+          color="#73cff7"
+        />
+        <CustomChart
+          data={timeSortedWeatherData}
+          dataKey="windDirection"
+          chartType="bar"
+          color="#f591ee"
+        />
+        <CustomChart
+          data={timeSortedWeatherData}
+          dataKey="uv"
+          chartType="bar"
+          color="#edd117"
+        />
+      </div>
     </div>
   );
 };

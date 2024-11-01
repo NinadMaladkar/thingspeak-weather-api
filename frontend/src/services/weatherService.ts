@@ -15,6 +15,9 @@ export const fetchWeatherData = async () => {
           ),
       },
     });
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch weather data');
+    }
     return response.data;
   } catch (error) {
     console.error('Error fetching weather data:', error);
