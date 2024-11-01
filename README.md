@@ -8,7 +8,7 @@
 
 [Ninad Maladkar](mailto:ninad.dev20@gmail.com)
 
-### [Click here to see the Video Review](LINK_TO_LOOM_VIDEO)
+### [Click here to see the Video Review](https://www.loom.com/share/54b3c0d354d64e1aba7372104969427a?sid=d8182639-f75d-4661-b707-51704c91718d)
 
 ## Proposed Solution
 
