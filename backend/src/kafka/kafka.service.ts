@@ -2,7 +2,7 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Kafka, Producer, Consumer, Partitioners } from 'kafkajs';
-import { Weather } from 'src/weather/entities/weather.entity';
+import { Weather } from '../weather/entities/weather.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

@@ -37,22 +37,15 @@ export class WeatherService {
 
   async findOne(id: number): Promise<WeatherInfoDto> {
     try {
-      const entity = await this.weatherRepository.findOne({ where: { id } });
-      if (!entity) {
+      const weather = await this.weatherRepository.findOne({ where: { id } });
+      if (!weather) {
         throw new NotFoundException('Weather data not found');
       }
-      return {
-        createdAt: entity.createdAt,
-        temperature: entity.temperature,
-        humidity: entity.humidity,
-        pressure: entity.pressure,
-        powerLevel: entity.powerLevel,
-        windSpeed: entity.windSpeed,
-        precipitation: entity.precipitation,
-        windDirection: entity.windDirection,
-        uv: entity.uv,
-      };
+      return weather;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       console.error('Failed to fetch weather data', error);
       throw new InternalServerErrorException('Failed to fetch weather data');
     }
