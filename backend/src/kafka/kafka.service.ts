@@ -78,14 +78,14 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
     });
   }
 
-  async produceMessage(data: any) {
+  async produceMessage(data: Weather): Promise<void> {
     await this.producer.send({
       topic: 'thingspeak-data',
       messages: [{ value: JSON.stringify(data) }],
     });
   }
 
-  async onModuleDestroy() {
+  async onModuleDestroy(): Promise<void> {
     await this.producer.disconnect();
     await this.consumer.disconnect();
   }

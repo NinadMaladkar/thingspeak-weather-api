@@ -9,9 +9,10 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { WeatherData } from '../types/Weather';
 
 interface ChartProps {
-  data: any[];
+  data: WeatherData[];
   dataKey: string;
   color: string;
 }

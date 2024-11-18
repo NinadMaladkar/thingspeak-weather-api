@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { WeatherData } from '../types/Weather';
 
 const API_URL = process.env.REACT_APP_API_URL || '';
 
 export const fetchWeatherData = async () => {
   try {
-    const response = await axios.get(API_URL, {
+    const response = await axios.get<WeatherData[]>(API_URL, {
       headers: {
         Authorization:
           'Basic ' +

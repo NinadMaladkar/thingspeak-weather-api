@@ -3,6 +3,7 @@ import { Cron } from '@nestjs/schedule';
 import { KafkaService } from './kafka/kafka.service';
 import axios from 'axios';
 import { thingspeakApiUrl, thingspeakApiChannelId } from '../config';
+import { Weather } from './weather/entities/weather.entity';
 
 @Injectable()
 export class AppService {
@@ -23,8 +24,7 @@ export class AppService {
       const channelId = thingspeakApiChannelId;
       const url = `${thingspeakApiUrl}/${channelId}/feeds.json`;
 
-      const response = await axios.get(url);
-      const data = response.data;
+      const { data } = await axios.get<Weather>(url);
 
       await this.kafkaService.produceMessage(data);
     } catch (error) {

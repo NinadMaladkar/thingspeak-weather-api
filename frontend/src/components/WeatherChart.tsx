@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchWeatherData } from '../services/weatherService';
 import CustomChart from './CustomChart';
 import './WeatherChart.css';
+import { WeatherData } from '../types/Weather';
+
 const WeatherChart: React.FC = () => {
   const {
     data: weatherData,
@@ -22,10 +24,12 @@ const WeatherChart: React.FC = () => {
     return <div>Error fetching weather data: {error.message}</div>;
   }
 
-  const timeSortedWeatherData = weatherData.sort(
-    (a: any, b: any) =>
-      new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-  );
+  const timeSortedWeatherData = Array.isArray(weatherData)
+    ? weatherData.sort(
+        (a: WeatherData, b: WeatherData) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      )
+    : [];
 
   return (
     <div>
