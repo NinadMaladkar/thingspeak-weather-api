@@ -39,38 +39,39 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
           const data = JSON.parse(message.value.toString());
           console.log('Received data from Kafka:', data, topic, partition);
 
-          const weatherEntities = data.feeds.map((feed) => {
-            const {
-              created_at,
-              field1,
-              field2,
-              field3,
-              field4,
-              field5,
-              field6,
-              field7,
-              field8,
-            } = feed;
+          const latestWeather = await this.findOneByLatestDate();
+          const latestDate = latestWeather ? latestWeather : new Date(0);
 
-            const weather = new Weather();
-            weather.createdAt = new Date(created_at);
-            weather.windDirection = parseFloat(field1);
-            weather.windSpeed = parseFloat(field2);
-            weather.humidity = parseFloat(field3);
-            weather.temperature = parseFloat(field4);
-            weather.precipitation = parseFloat(field5);
-            weather.pressure = parseFloat(field6);
-            weather.powerLevel = parseFloat(field7);
-            weather.uv = parseFloat(field8);
+          const weatherEntities: Weather[] = data.feeds
+            .filter((feed) => new Date(feed.created_at) > latestDate)
+            .map((feed) => {
+              const {
+                created_at,
+                field1,
+                field2,
+                field3,
+                field4,
+                field5,
+                field6,
+                field7,
+                field8,
+              } = feed;
 
-            return weather;
-          });
+              const weather = new Weather();
+              weather.createdAt = new Date(created_at);
+              weather.windDirection = parseFloat(field1);
+              weather.windSpeed = parseFloat(field2);
+              weather.humidity = parseFloat(field3);
+              weather.temperature = parseFloat(field4);
+              weather.precipitation = parseFloat(field5);
+              weather.pressure = parseFloat(field6);
+              weather.powerLevel = parseFloat(field7);
+              weather.uv = parseFloat(field8);
 
-          await Promise.all(
-            weatherEntities.map((weather) =>
-              this.weatherRepository.save(weather),
-            ),
-          );
+              return weather;
+            });
+
+          await this.weatherRepository.save(weatherEntities);
         } catch (error) {
           console.error('Error processing message - ', error);
         }
@@ -88,5 +89,14 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
   async onModuleDestroy(): Promise<void> {
     await this.producer.disconnect();
     await this.consumer.disconnect();
+  }
+
+  async findOneByLatestDate(): Promise<Date | null> {
+    const [latestWeather] = await this.weatherRepository.find({
+      order: { createdAt: 'DESC' },
+      take: 1,
+    });
+
+    return latestWeather?.createdAt || null;
   }
 }
